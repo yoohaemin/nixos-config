@@ -35,56 +35,78 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget 
+    # General stuffs
     vim 
-    emacs 
-    sbt 
-    tmux 
-    scala 
-    bloop
-    coursier
-    ammonite
+    chromium
+    wget 
     curl 
-    zsh 
-    git 
+    emacs 
     firefox 
     thunderbird 
-    pkgs.jetbrains.idea-community
-    pkgs.gnome3.gnome-terminal
-    # postman
-    insomnia
-    chromium
-    mosh
-    which
-    networkmanager
-    rustc
-    cargo
-    # vscodium
-    nodejs
-    docker
-    docker-compose
     ngrok
     arandr
     ripgrep
-    xss-lock
+    networkmanager
     i3lock
+    i7z
+    vlc
 
-    adoptopenjdk-bin
+    lm_sensors # `sensors` for system temperatures
+
+    # JVM & Scala related
+    sbt 
+    scala 
+    # bloop
+    coursier
+    ammonite
+    pkgs.jetbrains.idea-community
+
+    # Other dev tools
+    rustc
+    cargo
+    nodejs
+    python3
     vscodium
-    # jdk11
+    docker
+    docker-compose
+    tmux 
+    zsh 
+    git 
+    pkgs.gnome3.gnome-terminal
+    # postman # broken?
+    httpie
+    insomnia
+    mosh
+    which
   ];
 
-  fonts.fonts = [ 
-    pkgs.google-fonts 
-    pkgs.google-fonts 
-  ];
+  fonts = {
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [ 
+      anonymousPro
+      corefonts
+      dejavu_fonts
+      noto-fonts
+      freefont_ttf
+      google-fonts
+      inconsolata
+      liberation_ttf
+      powerline-fonts
+      source-code-pro
+      terminus_font
+      ttf_bitstream_vera
+      ubuntu_font_family
+      # d2codingfont
+    ];
+  };
   
   environment.variables = {
     TERMINAL = [ "gnome-terminal" ];
     OH_MY_ZSH = [ "${pkgs.oh-my-zsh}/share/oh-my-zsh" ];
   };
   
-  programs.xss-lock.enable = true;
+  # programs.xss-lock.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -119,6 +141,7 @@
     enable = true;
     layout = "us";
     libinput.enable = true; # Enable touchpad support.
+    libinput.naturalScrolling = true;
     
     windowManager.xmonad = {
       enable = true;
@@ -172,12 +195,7 @@
       source ~/.aliases
     fi
 
-    # https://github.com/wernight/docker-ngrok
-    function docker-ngrok() {
-      docker run --rm -it --link "$1":http wernight/ngrok ngrok http http:5001
-    }
-
-    source $ZSH/oh-my-zsh.sh
+   source $ZSH/oh-my-zsh.sh
   '';
   programs.zsh.promptInit = "";
 
@@ -193,7 +211,7 @@
     extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pkgs.pulseaudioFull;
   };
-  nixpkgs.config.pulseaudio = true;
+  nixpkgs.config.pulseaudio = true; # amixer set Master 10% (+/-)
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = true;

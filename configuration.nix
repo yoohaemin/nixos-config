@@ -7,14 +7,14 @@
 {
   imports =
     [
-      ./dell-e6230.nix
+      ./hansung-h58.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "haemin-e6230";
+  networking.hostName = "haemin-h58";
   # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
@@ -50,8 +50,10 @@
     i3lock
     i7z
     vlc
-
+    htop
+    xss-lock
     lm_sensors # `sensors` for system temperatures
+    openssl
 
     # JVM & Scala related
     sbt 
@@ -134,6 +136,7 @@
     volumeStep = "5%";
   };
   hardware.brightnessctl.enable = true;
+  services.illum.enable = true;
 
 
   # Enable the X11 windowing system.

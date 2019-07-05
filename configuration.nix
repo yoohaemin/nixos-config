@@ -54,6 +54,13 @@
     xss-lock
     lm_sensors # `sensors` for system temperatures
     openssl
+    okular
+    nixops
+    youtube-dl
+    bc
+    libreoffice
+    keybase
+    awscli
 
     # JVM & Scala related
     sbt 
@@ -107,6 +114,8 @@
     TERMINAL = [ "gnome-terminal" ];
     OH_MY_ZSH = [ "${pkgs.oh-my-zsh}/share/oh-my-zsh" ];
   };
+
+  programs.vim.defaultEditor = true;
   
   # programs.xss-lock.enable = true;
 
@@ -229,6 +238,7 @@
       "wheel"             # Enable ‘sudo’ for the user.
       "networkmanager" 
       "video"             # Brightness Control
+      "docker"
     ];
   };
   nixpkgs.config.allowUnfree = true;

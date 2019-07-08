@@ -61,6 +61,9 @@
     libreoffice
     keybase
     awscli
+    gitAndTools.diff-so-fancy
+    gitAndTools.git-fame
+    file
 
     # JVM & Scala related
     sbt 

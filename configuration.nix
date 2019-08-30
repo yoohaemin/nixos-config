@@ -4,11 +4,24 @@
 
 { config, pkgs, ... }:
 
+let
+  unstableTarball =
+    fetchTarball
+      https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+in
 {
   imports =
     [
       ./hansung-h58.nix
     ];
+
+  nixpkgs.config = {
+    packageOverrides = pkgs: {
+      unstable = import unstableTarball {
+        config = config.nixpkgs.config;
+      };
+    };
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -62,6 +75,7 @@
     coursier
     ammonite
     pkgs.jetbrains.idea-community
+    unstable.bloop
 
     # Other dev tools
     rustc

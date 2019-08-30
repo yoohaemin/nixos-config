@@ -1,22 +1,38 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
+let
+  # unstableTarball = fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+  baseConfig = { 
+    allowUnfree = true; 
+    packageOverrides = upkgs: {
+      apacheKafka = upkgs.apacheKafka.override { jre = pkgs.openjdk11; };
+      zookeeper = upkgs.zookeeper.override { jre = pkgs.openjdk11; };
+    };
+  };
+
+  # $ sudo nix-channel --add https://nixos.org/channels/nixos-unstable unstable
+  # $ sudo nix-channel --update unstable
+  unstable = import <unstable> { config = baseConfig; };
+in
 {
   imports =
     [
-      ./hansung-h58.nix
+      <nixos-hardware/apple/macbook-pro/11-5>
+      ./macbook.nix
     ];
+
+  system.stateVersion = "19.03";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "haemin-h58";
+  networking.hostName = "haemin-mbp-nix";
   # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
+  networking.extraHosts = ''
+    209.51.188.89 elpa.gnu.org
+  '';
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -32,8 +48,6 @@
   # Set your time zone.
   time.timeZone = "Asia/Seoul";
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     # General stuffs
     vim 
@@ -64,14 +78,17 @@
     gitAndTools.diff-so-fancy
     gitAndTools.git-fame
     file
+    light
 
     # JVM & Scala related
-    sbt 
-    scala 
+    sbt
+    scala
     # bloop
     coursier
     ammonite
-    pkgs.jetbrains.idea-community
+    jetbrains.idea-community
+    # jetbrains.jdk # For when running stuff that requires jfx
+    visualvm
 
     # Other dev tools
     rustc
@@ -85,12 +102,59 @@
     zsh 
     git 
     pkgs.gnome3.gnome-terminal
-    # postman # broken?
     httpie
     insomnia
     mosh
     which
+    bind
+    patchelf
+
+    xorg.xev
+    xorg.xkbcomp
+
+    dhall
+    dhall.prelude
+  ] ++ [
+    unstable.apacheKafka
+    unstable.zookeeper
+    unstable.bloop
+    unstable.d2coding
+    # unstable.jdk12
+    # unstable.openjdk
+    # unstable.graalvm8
+    # unstable.mx
+    unstable.leiningen
+    unstable.clojure
+    unstable.hy
+    unstable.postman
   ];
+
+  disabledModules = [ "servers/apache-kafka/default.nix" ];
+
+  nixpkgs.config = {
+    packageOverrides = pkgs: rec {
+      # unstable = import unstableTarball { config = config.nixpkgs.config; };
+
+      apacheKafka = unstable.apacheKafka;
+      zookeeper = unstable.zookeeper;
+      sbt = pkgs.sbt.override { jre = unstable.openjdk11; };
+    };
+
+    pulseaudio = true; # amixer set Master 10% (+/-)
+    allowUnfree = true;
+  };
+
+  services = {
+    apache-kafka = {
+      enable = true;
+      extraProperties = ''
+        transaction.state.log.replication.factor=1
+        offsets.topic.replication.factor=1
+      '';
+    };
+
+    zookeeper.enable = true;
+  };
 
   fonts = {
     enableFontDir = true;
@@ -109,7 +173,8 @@
       terminus_font
       ttf_bitstream_vera
       ubuntu_font_family
-      # d2codingfont
+    ] ++ [
+      unstable.d2coding
     ];
   };
   
@@ -119,7 +184,8 @@
   };
 
   programs.vim.defaultEditor = true;
-  
+  programs.java.enable = true;
+  programs.java.package = pkgs.jetbrains.jdk; # Compatible with javafx (Conduktor)
   # programs.xss-lock.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -130,7 +196,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -181,7 +247,7 @@
 
   programs.zsh.ohMyZsh = {
     enable = true;
-    plugins = [ "git" "man" ];
+    plugins = [ "git" "man" "vi-mode" ];
     theme = "simple";
   };
 
@@ -218,7 +284,7 @@
 
   hardware.enableAllFirmware = true;
   hardware.bluetooth.enable = true;
-  hardware.opengl.driSupport32Bit = true;
+  # hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio = {
     enable = true;
     support32Bit = true;
@@ -226,12 +292,10 @@
     extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pkgs.pulseaudioFull;
   };
-  nixpkgs.config.pulseaudio = true; # amixer set Master 10% (+/-)
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.haemin = {
     isNormalUser = true;
     home = "/home/haemin";
@@ -244,16 +308,8 @@
       "docker"
     ];
   };
-  nixpkgs.config.allowUnfree = true;
 
   security.sudo.extraConfig = ''
     %wheel      ALL=(ALL:ALL) NOPASSWD: ALL
   '';
-
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "19.03";
-
 }

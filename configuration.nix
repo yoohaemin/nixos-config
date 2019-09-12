@@ -1,35 +1,38 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 let
-  unstableTarball =
-    fetchTarball
-      https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+  # unstableTarball = fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
+  baseConfig = { 
+    allowUnfree = true; 
+    packageOverrides = upkgs: {
+      apacheKafka = upkgs.apacheKafka.override { jre = pkgs.openjdk11; };
+      zookeeper = upkgs.zookeeper.override { jre = pkgs.openjdk11; };
+    };
+  };
+
+  # $ sudo nix-channel --add https://nixos.org/channels/nixos-unstable unstable
+  # $ sudo nix-channel --update unstable
+  unstable = import <unstable> { config = baseConfig; };
 in
 {
   imports =
     [
-      ./dell-e6230.nix
+      <nixos-hardware/apple/macbook-pro/11-5>
+      ./macbook.nix
     ];
 
-  nixpkgs.config = {
-    packageOverrides = pkgs: {
-      unstable = import unstableTarball {
-        config = config.nixpkgs.config;
-      };
-    };
-  };
+  system.stateVersion = "19.03";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "haemin-e6230";
+  networking.hostName = "haemin-mbp-nix";
   # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
+  networking.extraHosts = ''
+    209.51.188.89 elpa.gnu.org
+  '';
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -45,8 +48,6 @@ in
   # Set your time zone.
   time.timeZone = "Asia/Seoul";
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     # General stuffs
     vim 
@@ -63,17 +64,31 @@ in
     i3lock
     i7z
     vlc
-
+    htop
+    xss-lock
     lm_sensors # `sensors` for system temperatures
+    openssl
+    okular
+    nixops
+    youtube-dl
+    bc
+    libreoffice
+    keybase
+    awscli
+    gitAndTools.diff-so-fancy
+    gitAndTools.git-fame
+    file
+    light
 
     # JVM & Scala related
-    sbt 
-    scala 
+    sbt
+    scala
     # bloop
     coursier
     ammonite
-    pkgs.jetbrains.idea-community
-    unstable.bloop
+    jetbrains.idea-community
+    # jetbrains.jdk # For when running stuff that requires jfx
+    visualvm
 
     # Other dev tools
     rustc
@@ -87,12 +102,59 @@ in
     zsh 
     git 
     pkgs.gnome3.gnome-terminal
-    # postman # broken?
     httpie
     insomnia
     mosh
     which
+    bind
+    patchelf
+
+    xorg.xev
+    xorg.xkbcomp
+
+    dhall
+    dhall.prelude
+  ] ++ [
+    unstable.apacheKafka
+    unstable.zookeeper
+    unstable.bloop
+    unstable.d2coding
+    # unstable.jdk12
+    # unstable.openjdk
+    # unstable.graalvm8
+    # unstable.mx
+    unstable.leiningen
+    unstable.clojure
+    unstable.hy
+    unstable.postman
   ];
+
+  disabledModules = [ "servers/apache-kafka/default.nix" ];
+
+  nixpkgs.config = {
+    packageOverrides = pkgs: rec {
+      # unstable = import unstableTarball { config = config.nixpkgs.config; };
+
+      apacheKafka = unstable.apacheKafka;
+      zookeeper = unstable.zookeeper;
+      sbt = pkgs.sbt.override { jre = unstable.openjdk11; };
+    };
+
+    pulseaudio = true; # amixer set Master 10% (+/-)
+    allowUnfree = true;
+  };
+
+  services = {
+    apache-kafka = {
+      enable = true;
+      extraProperties = ''
+        transaction.state.log.replication.factor=1
+        offsets.topic.replication.factor=1
+      '';
+    };
+
+    zookeeper.enable = true;
+  };
 
   fonts = {
     enableFontDir = true;
@@ -111,7 +173,8 @@ in
       terminus_font
       ttf_bitstream_vera
       ubuntu_font_family
-      # d2codingfont
+    ] ++ [
+      unstable.d2coding
     ];
   };
   
@@ -119,7 +182,10 @@ in
     TERMINAL = [ "gnome-terminal" ];
     OH_MY_ZSH = [ "${pkgs.oh-my-zsh}/share/oh-my-zsh" ];
   };
-  
+
+  programs.vim.defaultEditor = true;
+  programs.java.enable = true;
+  programs.java.package = pkgs.jetbrains.jdk; # Compatible with javafx (Conduktor)
   # programs.xss-lock.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -130,7 +196,7 @@ in
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -148,6 +214,7 @@ in
     volumeStep = "5%";
   };
   hardware.brightnessctl.enable = true;
+  services.illum.enable = true;
 
 
   # Enable the X11 windowing system.
@@ -180,7 +247,7 @@ in
 
   programs.zsh.ohMyZsh = {
     enable = true;
-    plugins = [ "git" "man" ];
+    plugins = [ "git" "man" "vi-mode" ];
     theme = "simple";
   };
 
@@ -217,7 +284,7 @@ in
 
   hardware.enableAllFirmware = true;
   hardware.bluetooth.enable = true;
-  hardware.opengl.driSupport32Bit = true;
+  # hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio = {
     enable = true;
     support32Bit = true;
@@ -225,12 +292,10 @@ in
     extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pkgs.pulseaudioFull;
   };
-  nixpkgs.config.pulseaudio = true; # amixer set Master 10% (+/-)
 
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.haemin = {
     isNormalUser = true;
     home = "/home/haemin";
@@ -240,18 +305,11 @@ in
       "wheel"             # Enable ‘sudo’ for the user.
       "networkmanager" 
       "video"             # Brightness Control
+      "docker"
     ];
   };
-  nixpkgs.config.allowUnfree = true;
 
   security.sudo.extraConfig = ''
     %wheel      ALL=(ALL:ALL) NOPASSWD: ALL
   '';
-
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "19.03";
-
 }

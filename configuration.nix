@@ -23,13 +23,23 @@ in
 
   system.stateVersion = "19.03";
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "haemin-mbp-nix";
+  networking.enableIPv6 = false;
   # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
+  networking.networkmanager.packages = [ 
+    pkgs.networkmanager-l2tp
+  ];
+  environment.etc."ipsec.secrets".text = ''
+    include ipsec.d/ipsec.nm-l2tp.secrets
+  '';
+  services.xl2tpd.enable = true;
   networking.extraHosts = ''
     209.51.188.89 elpa.gnu.org
   '';
@@ -54,8 +64,8 @@ in
     chromium
     wget 
     curl 
-    emacs 
-    firefox 
+    emacs
+    firefoxWrapper
     thunderbird 
     ngrok
     arandr
@@ -79,15 +89,14 @@ in
     gitAndTools.git-fame
     file
     light
+    xmobar
+    acpi
 
     # JVM & Scala related
-    sbt
     scala
     # bloop
     coursier
     ammonite
-    jetbrains.idea-community
-    # jetbrains.jdk # For when running stuff that requires jfx
     visualvm
 
     # Other dev tools
@@ -98,49 +107,81 @@ in
     vscodium
     docker
     docker-compose
-    tmux 
-    zsh 
-    git 
+    tmux
+    zsh
+    git
+    git-lfs
     pkgs.gnome3.gnome-terminal
     httpie
     insomnia
     mosh
     which
     bind
+    traceroute
     patchelf
+    stack
+    cabal-install
+    ghc
+    yarn
 
+    entr
     xorg.xev
     xorg.xkbcomp
 
-    dhall
-    dhall.prelude
+    python27Packages.demjson
+
+    dmenu
+    unzip
+    maven
+    bazel
+
+    beam.interpreters.erlang
+    beam.interpreters.elixir
+    # beam.interpreters.lfe
+
+    steam-run-native
+    p7zip
+    evince
+
+    gnome3.networkmanagerapplet
+
+    google-chrome
+    sbt
   ] ++ [
-    unstable.apacheKafka
-    unstable.zookeeper
     unstable.bloop
-    unstable.d2coding
-    # unstable.jdk12
-    # unstable.openjdk
-    # unstable.graalvm8
-    # unstable.mx
     unstable.leiningen
     unstable.clojure
     unstable.hy
-    unstable.postman
+    # unstable.postman
+    unstable.dhall
+    # unstable.dhall.prelude
+
+    unstable.xfce.terminal
+    unstable.alacritty
+
+    unstable.mongodb-compass
+
+    unstable.jetbrains.idea-community
+    unstable.jetbrains.jdk
   ];
 
   disabledModules = [ "servers/apache-kafka/default.nix" ];
 
   nixpkgs.config = {
     packageOverrides = pkgs: rec {
-      # unstable = import unstableTarball { config = config.nixpkgs.config; };
-
-      apacheKafka = unstable.apacheKafka;
-      zookeeper = unstable.zookeeper;
-      sbt = pkgs.sbt.override { jre = unstable.openjdk11; };
+      # apacheKafka = unstable.apacheKafka.override { jre = unstable.jdk11; };
+      # zookeeper = unstable.zookeeper.override { jre = unstable.jdk11; };
+      sbt = unstable.sbt.override { jre = unstable.adoptopenjdk-openj9-bin-11; };
+      # python = pkgs.python37;
     };
 
     pulseaudio = true; # amixer set Master 10% (+/-)
+    chromium = {
+      enablePepperFlash = false;
+    };
+    firefox = {
+      enableAdobeFlash = false;
+    };
     allowUnfree = true;
   };
 
@@ -185,7 +226,7 @@ in
 
   programs.vim.defaultEditor = true;
   programs.java.enable = true;
-  programs.java.package = pkgs.jetbrains.jdk; # Compatible with javafx (Conduktor)
+  programs.java.package = unstable.graalvm8; # unstable.jetbrains.jdk is Compatible with javafx (Conduktor)
   # programs.xss-lock.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -196,7 +237,7 @@ in
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh.enable = false;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -216,13 +257,15 @@ in
   hardware.brightnessctl.enable = true;
   services.illum.enable = true;
 
+  services.autorandr.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    layout = "us";
+    layout = "kr";
+    xkbVariant = "kr104";
     libinput.enable = true; # Enable touchpad support.
-    libinput.naturalScrolling = true;
+    libinput.naturalScrolling = false;
     
     windowManager.xmonad = {
       enable = true;
@@ -234,12 +277,14 @@ in
       ];
     };
     windowManager.default = "xmonad";
+    desktopManager.xterm.enable = false;
 
-    xkbOptions = "ctrl:nocaps";
+    # setxkbmap -option 
+    xkbOptions = "ctrl:nocaps"; # altwin:swap_alt_win
   };
 
-  services.flatpak.enable = true;
-  services.flatpak.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # services.flatpak.enable = false;
+  # services.flatpak.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   i18n.inputMethod = {
     enabled = "uim";
@@ -247,7 +292,7 @@ in
 
   programs.zsh.ohMyZsh = {
     enable = true;
-    plugins = [ "git" "man" "vi-mode" ];
+    plugins = [ "git" "man" ];
     theme = "simple";
   };
 
@@ -276,7 +321,8 @@ in
       source ~/.aliases
     fi
 
-   source $ZSH/oh-my-zsh.sh
+    bindkey -e
+    source $ZSH/oh-my-zsh.sh
   '';
   programs.zsh.promptInit = "";
 
@@ -285,6 +331,7 @@ in
   hardware.enableAllFirmware = true;
   hardware.bluetooth.enable = true;
   # hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.extraPackages = [ pkgs.vaapiIntel ];
   hardware.pulseaudio = {
     enable = true;
     support32Bit = true;

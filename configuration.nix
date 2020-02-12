@@ -4,10 +4,6 @@ let
   # unstableTarball = fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
   baseConfig = { 
     allowUnfree = true; 
-    packageOverrides = upkgs: {
-      apacheKafka = upkgs.apacheKafka.override { jre = pkgs.openjdk11; };
-      zookeeper = upkgs.zookeeper.override { jre = pkgs.openjdk11; };
-    };
   };
 
   # $ sudo nix-channel --add https://nixos.org/channels/nixos-unstable unstable
@@ -17,8 +13,7 @@ in
 {
   imports =
     [
-      <nixos-hardware/apple/macbook-pro/11-5>
-      ./macbook.nix
+      ./home-desktop.nix
     ];
 
   system.stateVersion = "19.03";
@@ -152,27 +147,19 @@ in
     unstable.leiningen
     unstable.clojure
     unstable.hy
-    # unstable.postman
     unstable.dhall
     # unstable.dhall.prelude
 
     unstable.xfce.terminal
     unstable.alacritty
 
-    unstable.mongodb-compass
-
     unstable.jetbrains.idea-community
     unstable.jetbrains.jdk
   ];
 
-  disabledModules = [ "servers/apache-kafka/default.nix" ];
-
   nixpkgs.config = {
     packageOverrides = pkgs: rec {
-      # apacheKafka = unstable.apacheKafka.override { jre = unstable.jdk11; };
-      # zookeeper = unstable.zookeeper.override { jre = unstable.jdk11; };
-      sbt = unstable.sbt.override { jre = unstable.adoptopenjdk-openj9-bin-11; };
-      # python = pkgs.python37;
+      sbt = pkgs.sbt.override { jre = unstable.openjdk11; };
     };
 
     pulseaudio = true; # amixer set Master 10% (+/-)
@@ -183,18 +170,6 @@ in
       enableAdobeFlash = false;
     };
     allowUnfree = true;
-  };
-
-  services = {
-    apache-kafka = {
-      enable = true;
-      extraProperties = ''
-        transaction.state.log.replication.factor=1
-        offsets.topic.replication.factor=1
-      '';
-    };
-
-    zookeeper.enable = true;
   };
 
   fonts = {

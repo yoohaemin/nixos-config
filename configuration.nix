@@ -24,7 +24,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "haemin-mbp-nix";
+  networking.hostName = "haemin-desktop-nix";
   networking.enableIPv6 = false;
   # networking.wireless.enable = true;
   networking.networkmanager.enable = true;
@@ -159,7 +159,7 @@ in
 
   nixpkgs.config = {
     packageOverrides = pkgs: rec {
-      sbt = pkgs.sbt.override { jre = unstable.openjdk11; };
+      sbt = pkgs.sbt.override { jre = unstable.graalvm8; };
     };
 
     pulseaudio = true; # amixer set Master 10% (+/-)
@@ -201,7 +201,7 @@ in
 
   programs.vim.defaultEditor = true;
   programs.java.enable = true;
-  programs.java.package = unstable.graalvm8; # unstable.jetbrains.jdk is Compatible with javafx (Conduktor)
+  programs.java.package = unstable.jetbrains.jdk; # unstable.graalvm8; # jetbrains is Compatible with javafx (Conduktor)
   # programs.xss-lock.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -230,7 +230,7 @@ in
     volumeStep = "5%";
   };
   hardware.brightnessctl.enable = true;
-  services.illum.enable = true;
+  services.illum.enable = false;
 
   services.autorandr.enable = true;
 

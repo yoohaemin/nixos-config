@@ -1,35 +1,35 @@
 { config, pkgs, ... }:
 
 let
-  # unstableTarball = fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
   baseConfig = { 
     allowUnfree = true; 
-    packageOverrides = upkgs: {
-      apacheKafka = upkgs.apacheKafka.override { jre = pkgs.openjdk11; };
-      zookeeper = upkgs.zookeeper.override { jre = pkgs.openjdk11; };
-    };
   };
 
-  # $ sudo nix-channel --add https://nixos.org/channels/nixos-unstable unstable
-  # $ sudo nix-channel --update unstable
+  # unstableTarball = fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz;
   unstable = import <unstable> { config = baseConfig; };
+  nixpkgs-unstable = import <nixpkgs-unstable> { config = baseConfig; };
 in
 {
   imports =
     [
-      <nixos-hardware/apple/macbook-pro/11-5>
-      ./macbook.nix
+      ./hardware-configuration.nix
     ];
 
-  system.stateVersion = "19.03";
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "haemin-mbp-nix";
-  # networking.wireless.enable = true;
+  networking.enableIPv6 = true;
   networking.networkmanager.enable = true;
+  networking.networkmanager.packages = [ 
+    pkgs.networkmanager-l2tp
+  ];
+  environment.etc."ipsec.secrets".text = ''
+    include ipsec.d/ipsec.nm-l2tp.secrets
+  '';
+  services.xl2tpd.enable = true;
   networking.extraHosts = ''
     209.51.188.89 elpa.gnu.org
   '';
@@ -46,7 +46,7 @@ in
   # };
 
   # Set your time zone.
-  time.timeZone = "Asia/Seoul";
+  time.timeZone = "Asia/Tokyo";
 
   environment.systemPackages = with pkgs; [
     # General stuffs
@@ -54,8 +54,8 @@ in
     chromium
     wget 
     curl 
-    emacs 
-    firefox 
+    emacs
+    firefoxWrapper
     thunderbird 
     ngrok
     arandr
@@ -79,15 +79,14 @@ in
     gitAndTools.git-fame
     file
     light
+    xmobar
+    acpi
 
     # JVM & Scala related
-    sbt
     scala
-    # bloop
+    bloop
     coursier
     ammonite
-    jetbrains.idea-community
-    # jetbrains.jdk # For when running stuff that requires jfx
     visualvm
 
     # Other dev tools
@@ -98,83 +97,95 @@ in
     vscodium
     docker
     docker-compose
-    tmux 
-    zsh 
-    git 
+    tmux
+    zsh
+    git
+    git-lfs
     pkgs.gnome3.gnome-terminal
     httpie
     insomnia
     mosh
     which
     bind
+    traceroute
     patchelf
+    stack
+    cabal-install
+    ghc
+    yarn
 
+    entr
     xorg.xev
     xorg.xkbcomp
 
-    dhall
-    dhall.prelude
+    dmenu
+    unzip
+    maven
+    bazel
+
+    beam.interpreters.erlang
+    beam.interpreters.elixir
+    # beam.interpreters.lfe
+
+    steam-run-native
+    p7zip
+    evince
+
+    gnome3.networkmanagerapplet
+
+    google-chrome
+    sbt
+    brightnessctl
   ] ++ [
-    unstable.apacheKafka
-    unstable.zookeeper
     unstable.bloop
-    unstable.d2coding
-    # unstable.jdk12
-    # unstable.openjdk
-    # unstable.graalvm8
-    # unstable.mx
     unstable.leiningen
     unstable.clojure
     unstable.hy
-    unstable.postman
+    unstable.dhall
+    # unstable.dhall.prelude
+
+    unstable.xfce.terminal
+    unstable.alacritty
+
+    nixpkgs-unstable.jetbrains.idea-community
   ];
 
-  disabledModules = [ "servers/apache-kafka/default.nix" ];
-
   nixpkgs.config = {
-    packageOverrides = pkgs: rec {
-      # unstable = import unstableTarball { config = config.nixpkgs.config; };
-
-      apacheKafka = unstable.apacheKafka;
-      zookeeper = unstable.zookeeper;
-      sbt = pkgs.sbt.override { jre = unstable.openjdk11; };
-    };
+    packageOverrides = 
+      pkgs: rec {
+        sbt = pkgs.sbt.override { jre = nixpkgs-unstable.graalvm11-ce; };
+      };
 
     pulseaudio = true; # amixer set Master 10% (+/-)
     allowUnfree = true;
   };
 
-  services = {
-    apache-kafka = {
-      enable = true;
-      extraProperties = ''
-        transaction.state.log.replication.factor=1
-        offsets.topic.replication.factor=1
-      '';
-    };
-
-    zookeeper.enable = true;
-  };
-
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     enableGhostscriptFonts = true;
-    fonts = with pkgs; [ 
+    fonts = with pkgs; [
       anonymousPro
       corefonts
+      d2coding
       dejavu_fonts
-      noto-fonts
+      dina-font
+      fira-code
+      fira-code-symbols
       freefont_ttf
       google-fonts
       inconsolata
       liberation_ttf
+      mplus-outline-fonts
+      nerdfonts
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
       powerline-fonts
+      proggyfonts
       source-code-pro
       terminus_font
       ttf_bitstream_vera
       ubuntu_font_family
-    ] ++ [
-      unstable.d2coding
     ];
   };
   
@@ -185,7 +196,7 @@ in
 
   programs.vim.defaultEditor = true;
   programs.java.enable = true;
-  programs.java.package = pkgs.jetbrains.jdk; # Compatible with javafx (Conduktor)
+  programs.java.package = nixpkgs-unstable.graalvm11-ce; # unstable.jetbrains.jdk
   # programs.xss-lock.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -196,50 +207,58 @@ in
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  # Open ports in the firewall.
+  services.openssh.enable = false;
+  networking.firewall.enable = true;
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
+  services.printing.enable = true;
   sound.enable = true;
   sound.mediaKeys = {
     enable = true;
     volumeStep = "5%";
   };
-  hardware.brightnessctl.enable = true;
-  services.illum.enable = true;
-
+  services.illum.enable = false;
+  services.autorandr.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    layout = "us";
+    layout = "kr";
+    xkbVariant = "kr104";
     libinput.enable = true; # Enable touchpad support.
-    libinput.naturalScrolling = true;
-    
-    windowManager.xmonad = {
-      enable = true;
-      enableContribAndExtras = true;
-      extraPackages = haskellPackages: [
-        haskellPackages.xmonad-contrib
-        haskellPackages.xmonad-extras
-        haskellPackages.xmonad
-      ];
-    };
-    windowManager.default = "xmonad";
+    libinput.touchpad.naturalScrolling = false;
+    desktopManager.xterm.enable = false;
+    desktopManager.mate.enable = true;
 
-    xkbOptions = "ctrl:nocaps";
+    # setxkbmap -option 
+    xkbOptions = "ctrl:nocaps"; # altwin:swap_alt_win
   };
 
-  services.flatpak.enable = true;
-  services.flatpak.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  #services.xserver = {
+  #  enable = true;
+  #  layout = "kr";
+  #  xkbVariant = "kr104";
+  #  libinput.enable = true; # Enable touchpad support.
+  #  libinput.naturalScrolling = false;
+  #  
+  #  windowManager.xmonad = {
+  #    enable = true;
+  #    enableContribAndExtras = true;
+  #    extraPackages = haskellPackages: [
+  #      haskellPackages.xmonad-contrib
+  #      haskellPackages.xmonad-extras
+  #      haskellPackages.xmonad
+  #    ];
+  #  };
+  #  windowManager.default = "xmonad";
+  #  desktopManager.xterm.enable = false;
+  #
+  #  # setxkbmap -option 
+  #  xkbOptions = "ctrl:nocaps"; # altwin:swap_alt_win
+  #};
+
+  # services.flatpak.enable = false;
+  # services.flatpak.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   i18n.inputMethod = {
     enabled = "uim";
@@ -247,7 +266,7 @@ in
 
   programs.zsh.ohMyZsh = {
     enable = true;
-    plugins = [ "git" "man" "vi-mode" ];
+    plugins = [ "git" "man" ];
     theme = "simple";
   };
 
@@ -276,7 +295,8 @@ in
       source ~/.aliases
     fi
 
-   source $ZSH/oh-my-zsh.sh
+    bindkey -e
+    source $ZSH/oh-my-zsh.sh
   '';
   programs.zsh.promptInit = "";
 
@@ -285,6 +305,7 @@ in
   hardware.enableAllFirmware = true;
   hardware.bluetooth.enable = true;
   # hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.extraPackages = [ pkgs.vaapiIntel ];
   hardware.pulseaudio = {
     enable = true;
     support32Bit = true;

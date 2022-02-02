@@ -28,7 +28,7 @@
   swapDevices = [ ];
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  xservices.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
   system.stateVersion = "21.11";
   networking.hostName = "haemin-fa506i-nixos";
 }

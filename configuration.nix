@@ -231,7 +231,6 @@ in
     libinput.touchpad.naturalScrolling = false;
     desktopManager.xterm.enable = false;
     desktopManager.mate.enable = true;
-    displayManager.lightdm.enable = true;
 
     # setxkbmap -option 
     xkbOptions = "ctrl:nocaps"; # altwin:swap_alt_win

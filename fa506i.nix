@@ -1,4 +1,13 @@
 { config, lib, pkgs, modulesPath, ... }:
+let
+  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+    exec -a "$0" "$@"
+  '';
+in
 {
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")
@@ -49,11 +58,11 @@
     };
 
     # https://github.com/NixOS/nixpkgs/issues/108018 
-    services.xserver.videoDrivers = [ "nvidia" ];
+    # services.xserver.videoDrivers = [ "nvidia" ];
     # services.xserver.videoDrivers = [ "amdgpu" ];
     boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
     boot.blacklistedKernelModules = [ "nouveau" "nvidia_drm" "nvidia_modeset" ]; #"nvidia"
-    environment.systemPackages = [ pkgs.linuxPackages.nvidia_x11 ];
+    environment.systemPackages = [ pkgs.linuxPackages.nvidia_x11 nvidia-offload ];
 
 
     # Option "PrimaryGPU" "Yes"
@@ -61,9 +70,14 @@
     #  Driver "modesetting"
     #'';
 
-    services.xserver.displayManager.sessionCommands = ''
-      xrandr --setprovideroutputsource modesetting NVIDIA-0; xrandr --auto
-    '';
+    services.xserver = {
+      displayManager = {
+        gdm.enable = true;
+        gdm.wayland = true;
+        gdm.nvidiaWayland = true;
+      };
+      videoDrivers = [ "modeset" "nvidia" ];
+    };
 
     system.stateVersion = "21.11";
     networking.hostName = "haemin-fa506i-nixos";

@@ -77,6 +77,10 @@ in
         gdm.nvidiaWayland = true;
       };
       videoDrivers = [ "modeset" "nvidia" ];
+      desktopManager = {
+        mate.enable = lib.mkForce true;
+        gnome.enable = false;
+      };
     };
 
     system.stateVersion = "21.11";

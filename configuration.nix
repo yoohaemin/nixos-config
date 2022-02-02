@@ -81,6 +81,8 @@ in
     light
     xmobar
     acpi
+    pciutils
+    lshw
 
     # JVM & Scala related
     scala
@@ -260,44 +262,6 @@ in
   # services.flatpak.enable = false;
   # services.flatpak.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
-  i18n.inputMethod = {
-    enabled = "uim";
-  };
-
-  programs.zsh.ohMyZsh = {
-    enable = true;
-    plugins = [ "git" "man" ];
-    theme = "simple";
-  };
-
-  programs.zsh.enable = true;
-  programs.zsh.interactiveShellInit = ''
-    export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/
-
-    # Customize your oh-my-zsh options here
-    ZSH_THEME="simple"
-    plugins=(git docker)
-
-    bindkey '\e[5~' history-beginning-search-backward
-    bindkey '\e[6~' history-beginning-search-forward
-
-    HISTFILESIZE=500000
-    HISTSIZE=500000
-    setopt SHARE_HISTORY
-    setopt HIST_IGNORE_ALL_DUPS
-    setopt HIST_IGNORE_DUPS
-    setopt INC_APPEND_HISTORY
-    autoload -U compinit && compinit
-    unsetopt menu_complete
-    setopt completealiases
-
-    if [ -f ~/.aliases ]; then
-      source ~/.aliases
-    fi
-
-    bindkey -e
-    source $ZSH/oh-my-zsh.sh
-  '';
   programs.zsh.promptInit = "";
 
   powerManagement.enable = true;

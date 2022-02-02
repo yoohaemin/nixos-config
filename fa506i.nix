@@ -32,8 +32,8 @@
   # NixOS doesn't support dual-gpu hardware yet, and I also don't care about the eGPU that much too
   # Using internal amdgpu for now
   # https://github.com/NixOS/nixpkgs/issues/108018 
-  # services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
+  # services.xserver.videoDrivers = [ "amdgpu" ];
 
   system.stateVersion = "21.11";
   networking.hostName = "haemin-fa506i-nixos";

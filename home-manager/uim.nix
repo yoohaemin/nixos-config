@@ -3,7 +3,7 @@
 
   i18n.inputMethod = {
     enabled = "uim";
-    uim.toolbar = "gtk-systray";
+    #uim.toolbar = "gtk3-systray";
   };
 
   home.file.".uim.d/customs/custom-anthy-keys2.scm".text = ''

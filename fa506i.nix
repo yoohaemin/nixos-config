@@ -25,10 +25,23 @@
 
     swapDevices = [ ];
 
-    hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    hardware = {
+      enableAllFirmware = true;
+      cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      opengl.enable = true;
+      opengl.driSupport32Bit = true;
+      nvidia = {
+        prime = {
+          sync.enable = true;
+          amdgpuBusId = "PCI:5:0:0";
+          nvidiaBusId = "PCI:1:0:0";
+        };
+        modesetting.enable = true;
+      };
+    };
 
     # https://github.com/NixOS/nixpkgs/issues/108018 
-    # services.xserver.videoDrivers = [ "nvidia" ];
+    services.xserver.videoDrivers = [ "nvidia" ];
     # services.xserver.videoDrivers = [ "amdgpu" ];
     boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
     boot.blacklistedKernelModules = [ "nouveau" "nvidia_drm" "nvidia_modeset" "nvidia" ];

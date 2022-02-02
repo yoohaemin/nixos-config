@@ -31,7 +31,12 @@
       opengl.enable = true;
       opengl.driSupport32Bit = true;
       nvidia = {
+        nvidiaPersistenced = true;
+        nvidiaSettings = true;
+        powerManagement.enable = true;
+        powerManagement.finegrained = false;
         prime = {
+          offload.enable = false;
           sync.enable = true;
           amdgpuBusId = "PCI:5:0:0";
           nvidiaBusId = "PCI:1:0:0";
@@ -44,7 +49,7 @@
     services.xserver.videoDrivers = [ "nvidia" ];
     # services.xserver.videoDrivers = [ "amdgpu" ];
     boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
-    boot.blacklistedKernelModules = [ "nouveau" "nvidia_drm" "nvidia_modeset" "nvidia" ];
+    boot.blacklistedKernelModules = [ "nouveau" "nvidia_drm" "nvidia_modeset" ]; #"nvidia"
     environment.systemPackages = [ pkgs.linuxPackages.nvidia_x11 ];
 
 

@@ -5,10 +5,9 @@
     ./alacritty.nix
     ./base.nix
     ./emacs.nix
-    ./macos.nix
     ./scala.nix
     ./shell.nix
   ];
 
-  programs.git.userEmail = "haemin@smartpay.co";
+  programs.git.userEmail = "haemin@zzz.pe.kr";
 }

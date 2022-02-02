@@ -34,6 +34,16 @@
     boot.blacklistedKernelModules = [ "nouveau" "nvidia_drm" "nvidia_modeset" "nvidia" ];
     environment.systemPackages = [ pkgs.linuxPackages.nvidia_x11 ];
 
+
+    # Option "PrimaryGPU" "Yes"
+    #services.xserver.config = lib.mkAfter ''
+    #  Driver "modesetting"
+    #'';
+
+    services.xserver.displayManager.sessionCommands = ''
+      xrandr --setprovideroutputsource modesetting NVIDIA-0; xrandr --auto
+    '';
+
     system.stateVersion = "21.11";
     networking.hostName = "haemin-fa506i-nixos";
   };

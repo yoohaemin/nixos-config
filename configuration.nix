@@ -82,6 +82,7 @@ in
     pciutils
     lshw
     inxi
+    glxinfo
 
     # JVM & Scala related
     scala

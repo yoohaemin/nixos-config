@@ -28,16 +28,19 @@
     hardware = {
       enableAllFirmware = true;
       cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-      opengl.enable = true;
-      opengl.driSupport32Bit = true;
+      opengl = {
+        enable = true;
+        driSupport32Bit = true;
+        extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+      };
       nvidia = {
         nvidiaPersistenced = true;
         nvidiaSettings = true;
         powerManagement.enable = true;
         powerManagement.finegrained = false;
         prime = {
-          offload.enable = false;
-          sync.enable = true;
+          offload.enable = true;
+          sync.enable = false;
           amdgpuBusId = "PCI:5:0:0";
           nvidiaBusId = "PCI:1:0:0";
         };

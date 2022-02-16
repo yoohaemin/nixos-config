@@ -230,7 +230,7 @@ in
     libinput.enable = true; # Enable touchpad support.
     libinput.touchpad.naturalScrolling = false;
     desktopManager.xterm.enable = false;
-    desktopManager.mate.enable = true;
+    desktopManager.mate.enable = false;
 
     # setxkbmap -option 
     xkbOptions = "ctrl:nocaps"; # altwin:swap_alt_win

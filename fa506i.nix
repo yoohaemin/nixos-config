@@ -21,14 +21,14 @@ in
     boot.kernelModules = [ "kvm-amd" ];
 
     fileSystems."/" =
-      { device = "/dev/disk/by-uuid/5e309bb0-b87d-4650-ac8e-1d14ccc0bbfa";
-        fsType = "ext4";
+      { device = "/dev/disk/by-uuid/4447920c-0c5f-469d-bec7-132b20040ccd";
+        fsType = "f2fs";
       };
 
-    boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/7a9790c9-b79b-41ee-9435-d1d771acd941";
-
-    fileSystems."/boot" =
-      { device = "/dev/disk/by-uuid/B0A0-CE85";
+    boot.initrd.luks.devices."luks-f9ee8457-ee1f-4ee1-a99d-f1e2ed24a316".device = "/dev/disk/by-uuid/f9ee8457-ee1f-4ee1-a99d-f1e2ed24a316";
+  
+    fileSystems."/boot/efi" =
+      { device = "/dev/disk/by-uuid/3334-0065";
         fsType = "vfat";
       };
 
@@ -60,15 +60,14 @@ in
     # https://github.com/NixOS/nixpkgs/issues/108018 
     # services.xserver.videoDrivers = [ "nvidia" ];
     # services.xserver.videoDrivers = [ "amdgpu" ];
-    boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+    boot.extraModulePackages = [ ]; #pkgs.linuxPackages.nvidia_x11 
     boot.blacklistedKernelModules = [ "nouveau" "nvidia_drm" "nvidia_modeset" ]; #"nvidia"
-    environment.systemPackages = [ pkgs.linuxPackages.nvidia_x11 nvidia-offload ];
+    environment.systemPackages = [  nvidia-offload ]; #pkgs.linuxPackages.nvidia_x11
 
     services.xserver = {
       displayManager = {
         gdm.enable = true;
         gdm.wayland = true;
-        gdm.nvidiaWayland = true;
         sessionCommands = ''
           xrandr --setmonitor HDMI-A-0~1 2560/593x1440/334+1920+0 HDMI-A-0
           xrandr --setmonitor HDMI-A-0~2 880/204x1440/334+4480+0 none
@@ -83,7 +82,7 @@ in
       };
 
       windowManager.xmonad = {
-        enable = true;
+        enable = false;
         enableContribAndExtras = true;
         config = ''
           --

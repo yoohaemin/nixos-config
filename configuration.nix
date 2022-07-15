@@ -21,7 +21,7 @@ in
 
   networking.enableIPv6 = true;
   networking.networkmanager.enable = true;
-  networking.networkmanager.packages = [ 
+  networking.networkmanager.plugins = [ 
     pkgs.networkmanager-l2tp
   ];
   environment.etc."ipsec.secrets".text = ''
@@ -37,11 +37,19 @@ in
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  # i18n = {
-  #   consoleFont = "Lat2-Terminus16";
-  #   consoleKeyMap = "us";
-  #   defaultLocale = "en_US.UTF-8";
-  # };
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "ko_KR.utf8";
+    LC_IDENTIFICATION = "ko_KR.utf8";
+    LC_MEASUREMENT = "ko_KR.utf8";
+    LC_MONETARY = "ko_KR.utf8";
+    LC_NAME = "ko_KR.utf8";
+    LC_NUMERIC = "ko_KR.utf8";
+    LC_PAPER = "ko_KR.utf8";
+    LC_TELEPHONE = "ko_KR.utf8";
+    LC_TIME = "ko_KR.utf8";
+  };
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
@@ -53,7 +61,7 @@ in
     wget 
     curl 
     emacs
-    firefoxWrapper
+    firefox
     thunderbird 
     ngrok
     arandr
@@ -133,7 +141,7 @@ in
     p7zip
     evince
 
-    gnome3.networkmanagerapplet
+    networkmanagerapplet
 
     google-chrome
     sbt
@@ -146,7 +154,7 @@ in
     unstable.dhall
     # unstable.dhall.prelude
 
-    unstable.xfce.terminal
+    unstable.xfce.xfce4-terminal
     unstable.alacritty
 
     nixpkgs-unstable.jetbrains.idea-community
@@ -177,7 +185,7 @@ in
       google-fonts
       inconsolata
       liberation_ttf
-      mplus-outline-fonts
+      # mplus-outline-fonts
       nerdfonts
       noto-fonts
       noto-fonts-cjk
@@ -274,7 +282,7 @@ in
     enable = true;
     support32Bit = true;
     zeroconf.discovery.enable = true;
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
+    extraModules = [ ];
     package = pkgs.pulseaudioFull;
   };
 

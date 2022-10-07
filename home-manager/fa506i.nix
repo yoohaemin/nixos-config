@@ -9,6 +9,7 @@
     ./obs.nix
     ./scala.nix
     ./shell.nix
+    ./xmonad.nix
   ];
 
   #shellAliases = {
@@ -18,4 +19,5 @@
   #};
 
   programs.git.userEmail = "haemin@zzz.pe.kr";
+  home.stateVersion = "22.05";
 }

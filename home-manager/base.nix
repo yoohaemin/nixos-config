@@ -2,15 +2,14 @@
 {
 
   home.packages = with pkgs; [
+    vim
     htop
-    gh
     youtube-dl
     bloop
     httpie
     ripgrep
     xclip
     jq
-    jd
     gitAndTools.git-interactive-rebase-tool
     postgresql
     terraform
@@ -18,19 +17,34 @@
     docker
     docker-compose
     docker-machine
-    # docker-machine-hyperkit
-    # docker-machine-xhyve
+    # ghc
+    # haskellPackages.xmonad
+    # haskellPackages.xmonad-contrib
+    # haskellPackages.xmonad-extras
+    scala-cli
+
+    # Fonts
+    d2coding
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
+    # proggyfonts
   ];
 
-#  programs.gh = {
-#    enable = true;
-#    aliases = {
-#      co = "pr checkout";
-#      pv = "pr view";
-#    };
-#    editor = "vim";
-#    gitProtocol = "ssh";
-#  };
+  programs.gh = {
+    enable = true;
+    settings.aliases = {
+      co = "pr checkout";
+      pv = "pr view";
+    };
+    settings.editor = "vim";
+    settings.git_protocol = "ssh";
+  };
 
   programs.git = {
     enable = true;

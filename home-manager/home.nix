@@ -1,0 +1,1 @@
+/home/haemin/.config/nixpkgs/fa506i.nix

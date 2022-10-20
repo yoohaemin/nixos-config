@@ -17,14 +17,11 @@
     docker
     docker-compose
     docker-machine
-    # ghc
-    # haskellPackages.xmonad
-    # haskellPackages.xmonad-contrib
-    # haskellPackages.xmonad-extras
     scala-cli
     nodejs
     yarn
     nnn
+    github-desktop
 
     # Fonts
     d2coding

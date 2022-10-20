@@ -1,1 +1,1 @@
-/home/haemin/.config/nixpkgs/fa506i.nix
+/home/haemin/.config/nixpkgs/15z980.nix

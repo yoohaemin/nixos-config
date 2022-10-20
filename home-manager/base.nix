@@ -22,6 +22,9 @@
     # haskellPackages.xmonad-contrib
     # haskellPackages.xmonad-extras
     scala-cli
+    nodejs
+    yarn
+    nnn
 
     # Fonts
     d2coding

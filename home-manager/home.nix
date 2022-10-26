@@ -1,1 +1,1 @@
-/home/haemin/.config/nixpkgs/15z980.nix
+/home/haemin/projects/nixos-config/home-manager/15z980.nix

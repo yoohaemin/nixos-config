@@ -18,10 +18,13 @@
     docker-compose
     docker-machine
     scala-cli
-    nodejs
+    # nodejs
+    # nodejs-16_x
     yarn
     nnn
     github-desktop
+    fd
+    vscodium
 
     # Fonts
     d2coding

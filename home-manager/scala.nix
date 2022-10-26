@@ -24,6 +24,8 @@
         "-Werror",
       ))
     }
+
+    Global / semanticdbEnabled := true
   '';
 
 }

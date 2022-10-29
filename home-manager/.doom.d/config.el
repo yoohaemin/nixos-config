@@ -46,8 +46,8 @@
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
-;;   (after! PACKAGE
-;;     (setq x y))
+(after! lsp-metals
+  (setq lsp-metals-java-home "/opt/graalvm-ee-java11-22.3.0"))
 ;;
 ;; The exceptions to this rule:
 ;;

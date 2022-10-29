@@ -38,7 +38,7 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 ;; Use `:pin' to specify a particular commit to install.
-;(package! builtin-package :pin "1a2b3c4d5e")
+(package! treemacs :pin "19eb68e53844b5c7d75137966c7135578450e588")
 
 
 ;; Doom's packages are pinned to a specific commit and updated from release to

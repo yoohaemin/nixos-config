@@ -15,6 +15,7 @@
     addSbtPlugin("com.timushev.sbt" % "sbt-rewarn" % "0.1.3")
     addSbtPlugin("au.com.onegeek" % "sbt-dotenv" % "2.1.233")
     addSbtPlugin("ch.epfl.scala" % "sbt-missinglink" % "0.3.3")
+    addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.6.4")
   '';
 
   home.file.".sbt/1.0/global.sbt".text = ''
@@ -27,5 +28,9 @@
 
     Global / semanticdbEnabled := true
   '';
+
+  home.sessionVariables = {
+    COURSIER_PROGRESS = "false"; # https://github.com/coursier/coursier/issues/1720
+  };
 
 }

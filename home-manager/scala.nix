@@ -27,6 +27,7 @@
     }
 
     Global / semanticdbEnabled := true
+    Global / semanticdbVersion := "4.6.0"
   '';
 
   home.sessionVariables = {

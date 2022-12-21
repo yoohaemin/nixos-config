@@ -5,7 +5,6 @@
     vim
     htop
     youtube-dl
-    bloop
     httpie
     ripgrep
     xclip
@@ -25,6 +24,7 @@
     github-desktop
     fd
     vscodium
+    wget
 
     # Fonts
     d2coding

@@ -6,4 +6,7 @@
   '';
 
   home.homeDirectory = "/Users/haemin";
+
+  # home-manager.useGlobalPkgs = true;
+  # home-manager.useUserPackages = true;
 }

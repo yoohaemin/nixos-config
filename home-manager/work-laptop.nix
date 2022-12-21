@@ -11,4 +11,5 @@
   ];
 
   programs.git.userEmail = "haemin@smartpay.co";
+  home.stateVersion = "22.05";
 }

@@ -21,7 +21,6 @@
     # nodejs-16_x
     yarn
     nnn
-    github-desktop
     fd
     vscodium
     wget

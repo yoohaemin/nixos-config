@@ -25,6 +25,7 @@
     fd
     vscodium
     wget
+    google-cloud-sdk
 
     # Fonts
     d2coding

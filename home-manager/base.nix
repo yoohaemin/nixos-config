@@ -5,7 +5,7 @@
     vim
     htop
     youtube-dl
-    httpie
+    # httpie
     ripgrep
     xclip
     jq

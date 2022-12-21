@@ -6,6 +6,7 @@
     ./base.nix
     ./emacs.nix
     ./macos.nix
+    ./private.nix
     ./scala.nix
     ./shell.nix
   ];

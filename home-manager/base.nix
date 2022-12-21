@@ -1,4 +1,9 @@
 { config, pkgs, ... }:
+let
+    gcloud = pkgs.google-cloud-sdk.withExtraComponents([
+                pkgs.google-cloud-sdk.components.pubsub-emulator
+             ]);
+in
 {
 
   home.packages = with pkgs; [
@@ -17,6 +22,7 @@
     docker-compose
     docker-machine
     scala-cli
+    gcloud
     # nodejs
     # nodejs-16_x
     yarn
@@ -24,7 +30,6 @@
     fd
     vscodium
     wget
-    google-cloud-sdk
 
     # Fonts
     d2coding

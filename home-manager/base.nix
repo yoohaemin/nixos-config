@@ -1,8 +1,9 @@
 { config, pkgs, ... }:
 let
-    gcloud = pkgs.google-cloud-sdk.withExtraComponents([
-                pkgs.google-cloud-sdk.components.pubsub-emulator
-             ]);
+  gcloud = pkgs.google-cloud-sdk.withExtraComponents([
+              pkgs.google-cloud-sdk.components.pubsub-emulator
+           ]);
+  unstable = import <unstable> {};
 in
 {
 
@@ -24,12 +25,16 @@ in
     scala-cli
     gcloud
     # nodejs
-    # nodejs-16_x
-    yarn
+    nodejs-16_x
+    (yarn.override { nodejs = nodejs-16_x; })
     nnn
     fd
     vscodium
     wget
+    clang
+    unstable.talosctl
+    unstable.kubectl
+    unstable.clusterctl
 
     # Fonts
     d2coding

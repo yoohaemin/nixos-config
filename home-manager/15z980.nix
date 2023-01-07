@@ -5,6 +5,7 @@
     ./alacritty.nix
     ./base.nix
     ./emacs.nix
+    ./gnulinux.nix
     ./nixos.nix
     ./scala.nix
     ./shell.nix

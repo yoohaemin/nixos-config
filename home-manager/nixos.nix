@@ -3,6 +3,7 @@
   imports = [
     ./uim.nix
     ./fonts.nix
+    ./gnulinux.nix
   ];
   
   home.packages = with pkgs; [

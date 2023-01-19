@@ -57,7 +57,6 @@ myKeys = [  (("M4-f"), spawn "brave-browser")
            ,(("M4-s"), spawn "slack")
            ,(("M4-o"), spawn "postman")
            ,(("M4-a"), spawn "intellij-idea-ultimate")
-           ,(("M4--"), spawn "xrandr -s 1280x800")
-           ,(("M4-="), spawn "xrandr -s 1920x1080")
+           ,(("M4--"), spawn "uim-toolbar-gtk3")
            ,(("M4-z"), kill)
          ]

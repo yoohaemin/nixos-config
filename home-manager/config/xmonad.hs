@@ -49,8 +49,8 @@ main = xmonad $ ewmhFullscreen . ewmh
               $ fullscreenSupportBorder
               $ mateConfig
                    { modMask = mod4Mask
-                   , borderWidth = 3
-                   , focusedBorderColor = "#7FBC71"
+                   , borderWidth = 4
+                   , focusedBorderColor = "#800080" -- "#7FBC71"
                    } `additionalKeysP` myKeys
 
 myKeys = [  (("M4-f"), spawn "brave-browser")

@@ -20,11 +20,13 @@ import qualified Data.Map as M
 import System.Environment (getEnvironment)
 import XMonad.Util.EZConfig
 import XMonad.Hooks.SetWMName
+import XMonad.Layout.Fullscreen
+import XMonad.Hooks.EwmhDesktops
 
 mateConfig = desktopConfig
-    { terminal    = "mate-terminal"
-    , keys        = mateKeys <+> keys desktopConfig
-    , startupHook = setWMName "LG3D"
+    { terminal        = "mate-terminal"
+    , keys            = mateKeys <+> keys desktopConfig
+    , startupHook     = setWMName "LG3D"
     }
 
 mateKeys (XConfig {modMask = modm}) = M.fromList $
@@ -43,12 +45,13 @@ mateRun = withDisplay $ \dpy -> do
         sendEvent dpy rw False structureNotifyMask e
         sync dpy False
 
-main = do
-    xmonad $ mateConfig
-                { modMask = mod4Mask
-                 , borderWidth = 4
-                 , focusedBorderColor = "#7FBC71"
-                } `additionalKeysP` myKeys
+main = xmonad $ ewmhFullscreen . ewmh 
+              $ fullscreenSupportBorder
+              $ mateConfig
+                   { modMask = mod4Mask
+                   , borderWidth = 3
+                   , focusedBorderColor = "#7FBC71"
+                   } `additionalKeysP` myKeys
 
 myKeys = [  (("M4-f"), spawn "brave-browser")
            ,(("M4-s"), spawn "slack")

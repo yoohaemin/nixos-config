@@ -34,4 +34,15 @@
     COURSIER_PROGRESS = "false"; # https://github.com/coursier/coursier/issues/1720
   };
 
+  home.file.".local/bin/mill" = {
+    executable = true;
+    text = builtins.readFile (
+      pkgs.fetchFromGitHub { 
+        owner = "lefou";
+        repo = "millw";
+        rev = "8c59e4d62f80738870647d364b20a9731a3e2ee2";
+        sha1 = "C4yE188eC3NaHGGzvaW7PVjxgvw=";
+      } + "/millw"
+    );
+  };
 }

@@ -35,6 +35,8 @@ in
     unstable.talosctl
     unstable.kubectl
     unstable.clusterctl
+    unstable.wrangler
+    texlive.combined.scheme-full
 
     # Fonts
     d2coding

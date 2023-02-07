@@ -80,9 +80,9 @@ in
   };
 
   manual = {
-    html.enable = true;
-    json.enable = true;
-    manpages.enable = true;
+    # html.enable = true;
+    # json.enable = true;
+    manpages.enable = false;
   };
 
   news.display = "notify";
@@ -92,7 +92,9 @@ in
 
   home.sessionPath = [
     "$HOME/.local/bin"
-  ]
+  ];
+
+  programs.autojump.enable = true;
 
   programs.home-manager.enable = true;
   home.username = "haemin";

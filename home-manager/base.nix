@@ -90,6 +90,12 @@ in
     allowUnfree = true;
   };
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ]
+
   programs.home-manager.enable = true;
   home.username = "haemin";
+
+
 }

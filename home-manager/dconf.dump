@@ -1,0 +1,334 @@
+[org/cinnamon]
+command-history=['terminal']
+device-aliases=['/org/freedesktop/UPower/devices/battery_BAT0:=OEM standard']
+enabled-applets=['panel1:left:0:menu@cinnamon.org:0', 'panel1:left:1:separator@cinnamon.org:1', 'panel1:left:2:grouped-window-list@cinnamon.org:2', 'panel1:right:0:systray@cinnamon.org:3', 'panel1:right:1:xapp-status@cinnamon.org:4', 'panel1:right:2:notifications@cinnamon.org:5', 'panel1:right:3:printers@cinnamon.org:6', 'panel1:right:4:removable-drives@cinnamon.org:7', 'panel1:right:5:keyboard@cinnamon.org:8', 'panel1:right:6:favorites@cinnamon.org:9', 'panel1:right:7:network@cinnamon.org:10', 'panel1:right:8:sound@cinnamon.org:11', 'panel1:right:9:power@cinnamon.org:12', 'panel1:right:10:calendar@cinnamon.org:13', 'panel1:right:11:cornerbar@cinnamon.org:14']
+next-applet-id=15
+
+[org/cinnamon/cinnamon-session]
+prefer-hybrid-sleep=true
+suspend-then-hibernate=false
+
+[org/cinnamon/desktop/sound]
+event-sounds=false
+
+[org/cinnamon/settings-daemon/peripherals/keyboard]
+numlock-state='off'
+
+[org/cinnamon/settings-daemon/plugins/power]
+lid-close-ac-action='suspend'
+lid-close-battery-action='suspend'
+sleep-display-ac=1800
+sleep-display-battery=1800
+sleep-inactive-ac-timeout=10800
+sleep-inactive-battery-timeout=0
+
+[org/gnome/Console]
+font-scale=1.1000000000000001
+last-window-size=(1920, 1168)
+theme='auto'
+
+[org/gnome/Geary]
+migrated-config=true
+window-height=1144
+window-width=1920
+
+[org/gnome/Weather]
+locations=[<(uint32 2, <('Tokyo International Airport', 'RJTT', false, [(0.62046454908398407, 2.4396794002616429)], @a(dd) [])>)>]
+
+[org/gnome/calendar]
+active-view='month'
+window-maximized=false
+window-size=(1920, 1144)
+
+[org/gnome/control-center]
+last-panel='universal-access'
+window-state=(960, 1168, false)
+
+[org/gnome/desktop/app-folders]
+folder-children=['Utilities', 'YaST']
+
+[org/gnome/desktop/app-folders/folders/Utilities]
+apps=['gnome-abrt.desktop', 'gnome-system-log.desktop', 'nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.Connections.desktop', 'org.gnome.DejaDup.desktop', 'org.gnome.Dictionary.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.eog.desktop', 'org.gnome.Evince.desktop', 'org.gnome.FileRoller.desktop', 'org.gnome.fonts.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Usage.desktop', 'vinagre.desktop']
+categories=['X-GNOME-Utilities']
+name='X-GNOME-Utilities.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/YaST]
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
+translate=true
+
+[org/gnome/desktop/background]
+color-shading-type='solid'
+picture-options='zoom'
+picture-uri='file:///run/current-system/sw/share/backgrounds/gnome/keys-l.webp'
+picture-uri-dark='file:///run/current-system/sw/share/backgrounds/gnome/keys-d.webp'
+primary-color='#aaaaaa'
+secondary-color='#000000'
+
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'kr+kr104')]
+xkb-options=['caps:ctrl_modifier']
+
+[org/gnome/desktop/interface]
+enable-animations=false
+show-battery-percentage=true
+
+[org/gnome/desktop/notifications]
+application-children=['org-gnome-console', 'gnome-network-panel', 'gnome-power-panel', 'firefox', 'org-gnome-calendar']
+
+[org/gnome/desktop/notifications/application/firefox]
+application-id='firefox.desktop'
+
+[org/gnome/desktop/notifications/application/gnome-network-panel]
+application-id='gnome-network-panel.desktop'
+
+[org/gnome/desktop/notifications/application/gnome-power-panel]
+application-id='gnome-power-panel.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-calendar]
+application-id='org.gnome.Calendar.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-console]
+application-id='org.gnome.Console.desktop'
+
+[org/gnome/desktop/peripherals/mouse]
+natural-scroll=false
+
+[org/gnome/desktop/peripherals/touchpad]
+tap-to-click=true
+two-finger-scrolling-enabled=true
+
+[org/gnome/desktop/screensaver]
+color-shading-type='solid'
+picture-options='zoom'
+picture-uri='file:///run/current-system/sw/share/backgrounds/gnome/keys-l.webp'
+primary-color='#aaaaaa'
+secondary-color='#000000'
+
+[org/gnome/desktop/wm/keybindings]
+minimize=@as []
+move-to-workspace-1=['<Shift><Super>1']
+move-to-workspace-2=['<Shift><Super>2']
+move-to-workspace-3=['<Shift><Super>3']
+move-to-workspace-4=['<Shift><Super>4']
+move-to-workspace-5=['<Shift><Super>5']
+move-to-workspace-6=['<Shift><Super>6']
+move-to-workspace-7=['<Shift><Super>7']
+move-to-workspace-8=['<Shift><Super>8']
+move-to-workspace-9=['<Shift><Super>9']
+move-to-workspace-10=['<Shift><Super>0']
+switch-to-workspace-1=['<Super>1']
+switch-to-workspace-2=['<Super>2']
+switch-to-workspace-3=['<Super>3']
+switch-to-workspace-4=['<Super>4']
+switch-to-workspace-5=['<Super>5']
+switch-to-workspace-6=['<Super>6']
+switch-to-workspace-7=['<Super>7']
+switch-to-workspace-8=['<Super>8']
+switch-to-workspace-9=['<Super>9']
+switch-to-workspace-10=['<Super>0']
+
+[org/gnome/desktop/wm/preferences]
+num-workspaces=10
+
+[org/gnome/epiphany]
+ask-for-default=false
+
+[org/gnome/epiphany/state]
+is-maximized=false
+window-size=(1920, 1144)
+
+[org/gnome/evolution-data-server]
+migrated=true
+
+[org/gnome/mutter]
+edge-tiling=false
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='icon-view'
+migrated-gtk-settings=true
+search-filter-time-type='last_modified'
+
+[org/gnome/nautilus/window-state]
+initial-size=(960, 584)
+
+[org/gnome/photos]
+window-maximized=false
+window-position=[26, 23]
+window-size=[960, 1168]
+
+[org/gnome/settings-daemon/plugins/power]
+power-button-action='hibernate'
+
+[org/gnome/shell]
+app-picker-layout=[{'org.gnome.Contacts.desktop': <{'position': <0>}>, 'org.gnome.Weather.desktop': <{'position': <1>}>, 'org.gnome.clocks.desktop': <{'position': <2>}>, 'org.gnome.Maps.desktop': <{'position': <3>}>, 'org.gnome.Totem.desktop': <{'position': <4>}>, 'Alacritty.desktop': <{'position': <5>}>, 'org.gnome.Calculator.desktop': <{'position': <6>}>, 'waydroid.com.android.inputmethod.latin.desktop': <{'position': <7>}>, 'simple-scan.desktop': <{'position': <8>}>, 'waydroid.de.danoeh.antennapod.desktop': <{'position': <9>}>, 'org.gnome.Settings.desktop': <{'position': <10>}>, 'waydroid.com.aurora.store.desktop': <{'position': <11>}>, 'gnome-system-monitor.desktop': <{'position': <12>}>, 'waydroid.com.x8bit.bitwarden.desktop': <{'position': <13>}>, 'waydroid.org.lineageos.jelly.desktop': <{'position': <14>}>, 'Utilities': <{'position': <15>}>, 'waydroid.com.android.calculator2.desktop': <{'position': <16>}>, 'yelp.desktop': <{'position': <17>}>, 'waydroid.org.lineageos.etar.desktop': <{'position': <18>}>, 'org.gnome.Cheese.desktop': <{'position': <19>}>, 'waydroid.com.android.camera2.desktop': <{'position': <20>}>, 'waydroid.com.android.deskclock.desktop': <{'position': <21>}>, 'waydroid.com.android.contacts.desktop': <{'position': <22>}>, 'waydroid.com.duckduckgo.mobile.android.desktop': <{'position': <23>}>}, {'emacs.desktop': <{'position': <0>}>, 'emacsclient.desktop': <{'position': <1>}>, 'org.gnome.Extensions.desktop': <{'position': <2>}>, 'waydroid.org.fdroid.fdroid.desktop': <{'position': <3>}>, 'waydroid.com.android.documentsui.desktop': <{'position': <4>}>, 'firefox.desktop': <{'position': <5>}>, 'waydroid.com.android.gallery3d.desktop': <{'position': <6>}>, 'waydroid.com.google.android.inputmethod.latin.desktop': <{'position': <7>}>, 'github-desktop.desktop': <{'position': <8>}>, 'htop.desktop': <{'position': <9>}>, 'uim.desktop': <{'position': <10>}>, 'idea-ultimate.desktop': <{'position': <11>}>, 'waydroid.com.google.android.apps.tachyon.desktop': <{'position': <12>}>, 'waydroid.org.lineageos.eleven.desktop': <{'position': <13>}>, 'nvim.desktop': <{'position': <14>}>, 'nixos-manual.desktop': <{'position': <15>}>, 'nnn.desktop': <{'position': <16>}>, 'waydroid.org.lineageos.recorder.desktop': <{'position': <17>}>, 'waydroid.com.android.settings.desktop': <{'position': <18>}>, 'org.gnome.TextEditor.desktop': <{'position': <19>}>, 'org.gnome.Tour.desktop': <{'position': <20>}>, 'tuxedo-control-center.desktop': <{'position': <21>}>, 'tuxedo-control-center-tray.desktop': <{'position': <22>}>, 'codium.desktop': <{'position': <23>}>}, {'xdvi.desktop': <{'position': <0>}>, 'xterm.desktop': <{'position': <1>}>, 'waydroid.com.android.vending.desktop': <{'position': <2>}>}]
+command-history=['gnome-terminal', 'tuxedo-control-center', 'waydroid show-full-ui', 'console', 'brave', 'uim-toolbar-gtk', 'idea-ultimate', 'github-desktop', 'alacritty', 'firefox']
+disabled-extensions=['weather@eexpss.gmail.com', 'window-list@gnome-shell-extensions.gcampax.github.com']
+enabled-extensions=['pop-shell@system76.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com', 'waylandorx11@injcristianrojas.github.com', 'weatherornot@somepaulo.github.io', 'wifiqrcode@glerro.pm.me', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com', 'systemd-manager@hardpixel.eu', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com']
+favorite-apps=['org.gnome.Epiphany.desktop', 'org.gnome.Geary.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Music.desktop', 'org.gnome.Photos.desktop', 'org.gnome.Nautilus.desktop', 'Waydroid.desktop', 'waydroid.com.android.vending.desktop']
+last-selected-power-profile='performance'
+welcome-dialog-last-shown-version='44.2'
+
+[org/gnome/shell/extensions/pop-shell]
+active-hint=true
+gap-inner=uint32 0
+gap-outer=uint32 0
+tile-by-default=true
+
+[org/gnome/shell/extensions/systemd-manager]
+systemd=@as []
+
+[org/gnome/shell/keybindings]
+switch-to-application-1=@as []
+switch-to-application-2=@as []
+switch-to-application-3=@as []
+switch-to-application-4=@as []
+switch-to-application-5=@as []
+switch-to-application-6=@as []
+switch-to-application-7=@as []
+switch-to-application-8=@as []
+switch-to-application-9=@as []
+switch-to-application-10=@as []
+toggle-overview=@as []
+
+[org/gnome/shell/weather]
+automatic-location=true
+locations=[<(uint32 2, <('Tokyo International Airport', 'RJTT', false, [(0.62046454908398407, 2.4396794002616429)], @a(dd) [])>)>]
+
+[org/gnome/shell/world-clocks]
+locations=@av []
+
+[org/gtk/settings/color-chooser]
+custom-colors=[(0.51372499999999999, 0.58039200000000002, 0.58823499999999995, 1.0)]
+selected-color=(true, 1.0, 1.0, 1.0, 1.0)
+
+[org/gtk/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=157
+sort-column='name'
+sort-directories-first=false
+sort-order='ascending'
+type-format='category'
+window-position=(3038, 261)
+window-size=(1203, 902)
+
+[org/mate/desktop/accessibility/keyboard]
+bouncekeys-beep-reject=true
+bouncekeys-delay=300
+bouncekeys-enable=false
+enable=false
+feature-state-change-beep=false
+mousekeys-accel-time=1200
+mousekeys-enable=false
+mousekeys-init-delay=160
+mousekeys-max-speed=750
+slowkeys-beep-accept=true
+slowkeys-beep-press=true
+slowkeys-beep-reject=false
+slowkeys-delay=300
+slowkeys-enable=false
+stickykeys-enable=false
+stickykeys-latch-to-lock=true
+stickykeys-modifier-beep=true
+stickykeys-two-key-off=true
+timeout=120
+timeout-enable=false
+togglekeys-enable=false
+
+[org/mate/desktop/background]
+picture-filename=''
+
+[org/mate/desktop/session]
+session-start=1694250809
+
+[org/mate/panel/general]
+history-mate-run=['mate-terminal']
+object-id-list=['menu-bar', 'notification-area', 'clock', 'show-desktop', 'window-list', 'workspace-switcher']
+toplevel-id-list=['top', 'bottom']
+
+[org/mate/panel/objects/clock]
+applet-iid='ClockAppletFactory::ClockApplet'
+locked=true
+object-type='applet'
+panel-right-stick=true
+position=0
+toplevel-id='top'
+
+[org/mate/panel/objects/clock/prefs]
+custom-format=''
+format='24-hour'
+
+[org/mate/panel/objects/menu-bar]
+locked=true
+object-type='menu-bar'
+position=0
+toplevel-id='top'
+
+[org/mate/panel/objects/notification-area]
+applet-iid='NotificationAreaAppletFactory::NotificationArea'
+locked=true
+object-type='applet'
+panel-right-stick=true
+position=10
+toplevel-id='top'
+
+[org/mate/panel/objects/show-desktop]
+applet-iid='WnckletFactory::ShowDesktopApplet'
+locked=true
+object-type='applet'
+position=0
+toplevel-id='bottom'
+
+[org/mate/panel/objects/window-list]
+applet-iid='WnckletFactory::WindowListApplet'
+locked=true
+object-type='applet'
+position=20
+toplevel-id='bottom'
+
+[org/mate/panel/objects/workspace-switcher]
+applet-iid='WnckletFactory::WorkspaceSwitcherApplet'
+locked=true
+object-type='applet'
+panel-right-stick=true
+position=0
+toplevel-id='bottom'
+
+[org/mate/panel/toplevels/bottom]
+expand=true
+orientation='bottom'
+screen=0
+size=24
+y=1175
+y-bottom=0
+
+[org/mate/panel/toplevels/top]
+expand=true
+orientation='top'
+screen=0
+size=24
+
+[org/mate/terminal/profiles/default]
+background-color='#00002B2A3635'
+bold-color='#000000000000'
+foreground-color='#FFFFFFFFFFFF'
+palette='#2E2E34343636:#CCCC00000000:#4E4E9A9A0606:#C4C4A0A00000:#34346565A4A4:#757550507B7B:#060698209A9A:#D3D3D7D7CFCF:#555557575353:#EFEF29292929:#8A8AE2E23434:#FCFCE9E94F4F:#72729F9FCFCF:#ADAD7F7FA8A8:#3434E2E2E2E2:#EEEEEEEEECEC'
+use-theme-colors=false
+visible-name='Default'
+
+[org/nemo/window-state]
+geometry='800x550+50+50'
+maximized=false
+sidebar-bookmark-breakpoint=0
+start-with-sidebar=true
+
+[org/x/warpinator/preferences]
+ask-for-send-permission=true
+autostart=false
+connect-id='NIXOS-0865A5645516A96F34E1'
+no-overwrite=true

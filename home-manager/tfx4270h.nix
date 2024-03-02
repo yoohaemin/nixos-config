@@ -1,4 +1,7 @@
 { config, pkgs, ... }:
+let
+  unstable = import <unstable>{};
+in
 {
 
   imports = [
@@ -12,10 +15,16 @@
     ./xmonad.nix
   ];
 
-  home.sessionVariables = {
-    JAVA_HOME="/opt/graalvm-ee-java11-22.3.0";
-  };
+  # home.sessionVariables = {
+  #   JAVA_HOME="/opt/graalvm-ee-java11-22.3.0";
+  # };
+
+  # home.packages = [
+  #   unstable.google-chrome
+  #   unstable.microsoft-edge
+  #   unstable.slack
+  # ];
 
   programs.git.userEmail = "haemin@zzz.pe.kr";
-  home.stateVersion = "22.05";
+  home.stateVersion = "23.05";
 }

@@ -4,6 +4,12 @@ let
               pkgs.google-cloud-sdk.components.pubsub-emulator
            ]);
   unstable = import <unstable> {};
+  my-python-packages = ps: with ps; [
+    pandas
+    requests
+    pip
+    # other python packages
+  ];
 in
 {
 
@@ -25,8 +31,8 @@ in
     scala-cli
     gcloud
     # nodejs
-    nodejs-16_x
-    (yarn.override { nodejs = nodejs-16_x; })
+    nodejs #-18_x
+    yarn #.override { nodejs = nodejs-18_x; })
     nnn
     fd
     vscodium
@@ -35,8 +41,11 @@ in
     unstable.talosctl
     unstable.kubectl
     unstable.clusterctl
-    unstable.wrangler
+    # unstable.wrangler
+    # (unstable.python3.withPackages my-python-packages)
+    # unstable.python3
     texlive.combined.scheme-full
+    unstable.chromium # ungoogled-
 
     # Fonts
     d2coding
@@ -98,6 +107,4 @@ in
 
   programs.home-manager.enable = true;
   home.username = "haemin";
-
-
 }

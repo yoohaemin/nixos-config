@@ -4,13 +4,14 @@
 
 { config, lib, pkgs, modulesPath, ... }:
 let
-  tuxedo = import (builtins.fetchTarball "https://github.com/blitz/tuxedo-nixos/archive/91f7d9ba249f5fd1357f8d55bc510c1641d54a52.tar.gz");
-in 
+  tuxedo = import (builtins.fetchTarball "https://github.com/liketechnik/tuxedo-nixos/archive/18340d8a914582d45c2823f3c244440bb3c8fdb5.tar.gz");
+in
 {
   imports =
     [
       (modulesPath + "/installer/scan/not-detected.nix")
       tuxedo.module
+      # ./sway.nix
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
@@ -42,12 +43,29 @@ in
   # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave"; # or "powersave" or "performance"
+  services.auto-cpufreq.enable = true;
+  services.thermald.enable = true;
+
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   hardware.tuxedo-control-center.enable = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_3;
+  # hardware.tuxedo-rs = {
+  #   enable = true;
+  #   tailor-gui.enable = true;
+  # };
+
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   programs.nix-ld.enable = true;
+  boot.binfmt.registrations.appimage = {
+    wrapInterpreterInShell = false;
+    interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+    recognitionType = "magic";
+    offset = 0;
+    mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
+    magicOrExtension = ''\x7fELF....AI\x02'';
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -62,7 +80,7 @@ in
   boot.initrd.luks.devices."luks-9514d6ec-6d04-4433-8952-f0c5fbd1ea96".device = "/dev/disk/by-uuid/9514d6ec-6d04-4433-8952-f0c5fbd1ea96";
   boot.initrd.luks.devices."luks-9514d6ec-6d04-4433-8952-f0c5fbd1ea96".keyFile = "/crypto_keyfile.bin";
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos-tfx4270h"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -77,6 +95,19 @@ in
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.pulseaudio = {
+    package = pkgs.pulseaudioFull;
+  };
+  hardware.bluetooth.settings = {
+  	General = {
+  		Experimental = true;
+  	};
+  };
+  services.blueman.enable = true;
+
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -93,12 +124,24 @@ in
     LC_TIME = "ja_JP.UTF-8";
   };
 
+  i18n.inputMethod.enabled = "uim";
+
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
+    # desktopManager.gnome.enable = true;
+    # displayManager.gdm.enable = true;
+  };
 
   # Enable the MATE Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.cinnamon.enable = true;
+  services.xserver.desktopManager.mate.enable = true;
+  services.xserver.windowManager.xmonad = {
+    enable = true;
+    enableContribAndExtras = true;
+  };
+
+  # services.xserver.desktopManager.cinnamon.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -107,7 +150,7 @@ in
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # services.printing.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -129,11 +172,13 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  programs.adb.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.haemin = {
     isNormalUser = true;
     description = "Haemin Yoo";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" ];
     packages = with pkgs; [
       firefox
     #  thunderbird
@@ -146,9 +191,40 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    neovim
+    vim
+    wget
+
+    devmem2
+    msr-tools
+    linuxKernel.packages.linux_zen.turbostat
+    pciutils
+
+    # Gnome
+    # gnomeExtensions.appindicator
+    # gnomeExtensions.wireless-hid
+    # gnomeExtensions.wifi-qrcode
+    # gnomeExtensions.webfeed
+    # gnomeExtensions.weather-or-not
+    # gnomeExtensions.weather
+    # gnomeExtensions.wayland-or-x11
+    # gnomeExtensions.systemd-manager
+    # gnome.adwaita-icon-theme
+    # # gnomeExtensions.pop-shell
+    # gnomeExtensions.gtk3-theme-switcher
+    # yaru-theme
+    # gnomeExtensions.appindicator
   ];
+
+  # services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  nix.settings.experimental-features = "nix-command flakes";
+
+  virtualisation.waydroid.enable = true;
+
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
+
+  virtualisation.docker.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

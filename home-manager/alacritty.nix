@@ -84,7 +84,7 @@
         #};
       };
       live_config_reload = true;
-      alt_send_esc = true;
+      # alt_send_esc = true;
       key_bindings = [
         { key = "F"; mods = "Alt"; chars = "\\x1bf"; }
         { key = "B"; mods = "Alt"; chars = "\\x1bb"; }

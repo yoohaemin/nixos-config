@@ -184,6 +184,8 @@ in
     #  thunderbird
     ];
   };
+  security.sudo.wheelNeedsPassword = false;
+  environment.etc."polkit-1/rules.d/10-wheel-nopasswd.rules".source = /etc/nixos/polkit-wheel-nopasswd.rules;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

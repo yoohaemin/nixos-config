@@ -27,7 +27,6 @@ in
     minikube
     docker
     docker-compose
-    docker-machine
     scala-cli
     gcloud
     # nodejs

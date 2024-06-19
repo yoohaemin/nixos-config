@@ -52,11 +52,9 @@ in
   home.packages = with pkgs; [
     (unstable.coursier.override { jre = unstable.temurin-bin-21; })
     (unstable.sbt.override { jre = unstable.temurin-bin-21; })
-    unstable.jetbrains.idea-ultimate
-    unstable.jetbrains.idea-community
     unstable.bloop
-    unstable.android-studio
     unstable.temurin-bin-21
+    unstable.visualvm
   ];
 
   home.sessionPath = [

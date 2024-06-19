@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 {
 
-  i18n.inputMethod = {
-    enabled = "uim";
-    uim.toolbar = "gtk-systray";
-  };
+  #i18n.inputMethod = {
+  #  enabled = "uim";
+  #  uim.toolbar = "gtk-systray";
+  #};
 
   home.file.".uim.d/customs/custom-anthy-keys2.scm".text = ''
     (define anthy-on-key '("hangul"))
@@ -47,7 +47,7 @@
     (define custom-activate-default-im-name? #t)
     (define custom-preserved-default-im-name 'byeoru)
     (define default-im-name 'byeoru)
-    (define enabled-im-list '(byeoru anthy-utf8 py))
+    (define enabled-im-list '(byeoru mozc py))
     (define enable-im-switch? #t)
     (define switch-im-key '("<Control>hangul"))
     (define switch-im-key? (make-key-predicate '("<Control>hangul")))
@@ -55,7 +55,7 @@
     (define enable-im-toggle? #f)
     (define toggle-im-key '("<Control>hangul"))
     (define toggle-im-key? (make-key-predicate '("<Control>hangul")))
-    (define toggle-im-alt-im 'direct)
+    (define toggle-im-alt-im 'mozc)
     (define uim-color 'uim-color-uim)
     (define candidate-window-style 'vertical)
     (define candidate-window-position 'caret)

@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
-let
-  unstable = import <unstable>{};
-in
+# let
+#   unstable = import <unstable>{};
+# in
 {
 
   imports = [

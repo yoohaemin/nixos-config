@@ -23,31 +23,31 @@ import XMonad.Hooks.SetWMName
 import XMonad.Layout.Fullscreen
 import XMonad.Hooks.EwmhDesktops
 
-mateConfig = desktopConfig
-    { terminal        = "mate-terminal"
-    , keys            = mateKeys <+> keys desktopConfig
+gnomeConfig = desktopConfig
+    { terminal        = "gnome-terminal"
+    , keys            = gnomeKeys <+> keys desktopConfig
     , startupHook     = setWMName "LG3D"
     }
 
-mateKeys (XConfig {modMask = modm}) = M.fromList $
-    [ ((modm, xK_p), mateRun)
-    , ((modm .|. shiftMask, xK_q), spawn "mate-session-save --kill") ]
+gnomeKeys (XConfig {modMask = modm}) = M.fromList $
+    [ ((modm, xK_p), gnomeRun)
+    , ((modm .|. shiftMask, xK_q), spawn "gnome-session-save --kill") ]
 
-mateRun :: X ()
-mateRun = withDisplay $ \dpy -> do
+gnomeRun :: X ()
+gnomeRun = withDisplay $ \dpy -> do
     rw <- asks theRoot
-    mate_panel <- getAtom "_MATE_PANEL_ACTION"
-    panel_run   <- getAtom "_MATE_PANEL_ACTION_RUN_DIALOG"
+    gnome_panel <- getAtom "_GNOME_PANEL_ACTION"
+    panel_run   <- getAtom "_GNOME_PANEL_ACTION_RUN_DIALOG"
 
     io $ allocaXEvent $ \e -> do
         setEventType e clientMessage
-        setClientMessageEvent e rw mate_panel 32 panel_run 0
+        setClientMessageEvent e rw gnome_panel 32 panel_run 0
         sendEvent dpy rw False structureNotifyMask e
         sync dpy False
 
 main = xmonad $ ewmhFullscreen . ewmh 
               $ fullscreenSupportBorder
-              $ mateConfig
+              $ gnomeConfig
                    { modMask = mod4Mask
                    , borderWidth = 4
                    , focusedBorderColor = "#800080" -- "#7FBC71"
@@ -56,7 +56,7 @@ main = xmonad $ ewmhFullscreen . ewmh
 myKeys = [  (("M4-f"), spawn "brave-browser")
         -- ,(("M4-s"), spawn "slack")
         -- ,(("M4-o"), spawn "postman")
-           ,(("M4-a"), spawn "intellij-idea-ultimate")
+           ,(("M4-a"), spawn "intellij-idea-ultignome")
            ,(("M4-="), spawn "uim-toolbar-gtk3")
            ,(("M4-0"), spawn "sudo brightnessctl s 1%-")
            ,(("M4--"), spawn "sudo brightnessctl s +1%")

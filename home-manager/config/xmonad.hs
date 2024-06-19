@@ -54,11 +54,7 @@ main = xmonad $ ewmhFullscreen . ewmh
                    } `additionalKeysP` myKeys
 
 myKeys = [  (("M4-f"), spawn "brave-browser")
-        -- ,(("M4-s"), spawn "slack")
-        -- ,(("M4-o"), spawn "postman")
-           ,(("M4-a"), spawn "intellij-idea-ultignome")
-           ,(("M4-="), spawn "uim-toolbar-gtk3")
-           ,(("M4-0"), spawn "sudo brightnessctl s 1%-")
-           ,(("M4--"), spawn "sudo brightnessctl s +1%")
+           ,(("M4-a"), spawn "/home/haemin/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh")
+           ,(("M4-="), spawn "uim-toolbar-gtk3-systray")
            ,(("M4-z"), kill)
          ]

@@ -25,8 +25,6 @@ in
     postgresql
     terraform
     minikube
-    docker
-    docker-compose
     scala-cli
     gcloud
     # nodejs

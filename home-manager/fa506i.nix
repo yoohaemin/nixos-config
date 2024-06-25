@@ -2,7 +2,6 @@
 {
 
   imports = [
-    ./alacritty.nix
     ./base.nix
     ./emacs.nix
     ./nixos.nix

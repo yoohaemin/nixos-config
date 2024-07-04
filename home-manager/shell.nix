@@ -11,7 +11,7 @@
     escapeTime = 0;
     keyMode = "vi";
     terminal = "xterm-256color";
-    historyLimit = 100000;
+    historyLimit = 30000;
     prefix = "`";
   };
 

@@ -25,6 +25,7 @@
 ;; If you'd like to disable a package included with Doom, you can do so here
 ;; with the `:disable' property:
 ;(package! builtin-package :disable t)
+(package! evil-snipe :disable t)
 
 ;; You can override the recipe of a built in package without having to specify
 ;; all the properties for `:recipe'. These will inherit the rest of its recipe
@@ -38,7 +39,7 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 ;; Use `:pin' to specify a particular commit to install.
-(package! treemacs :pin "19eb68e53844b5c7d75137966c7135578450e588")
+;(package! treemacs :pin "19eb68e53844b5c7d75137966c7135578450e588")
 
 
 ;; Doom's packages are pinned to a specific commit and updated from release to
@@ -48,3 +49,8 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+
+(package! smithy
+  :recipe (:host github :repo "mnemitz/smithy-mode" :files ("*.smithy")))

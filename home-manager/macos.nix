@@ -9,4 +9,10 @@
 
   # home-manager.useGlobalPkgs = true;
   # home-manager.useUserPackages = true;
+
+  programs.zsh = {
+    profileExtra = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    '';
+  };
 }

@@ -7,7 +7,7 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Haemin Yoo"
-      user-mail-address "gpg@zzz.pe.kr")
+      user-mail-address "haemin@smartpay.co")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -46,8 +46,8 @@
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
-(after! lsp-metals
-  (setq lsp-metals-java-home "/opt/graalvm-ee-java11-22.3.0"))
+; (after! lsp-metals
+;   (setq lsp-metals-java-home "/Users/haemin/Library/Java/JavaVirtualMachines/graalvm-jdk-21.0.2+13.1/Contents/Home"))
 ;;
 ;; The exceptions to this rule:
 ;;
@@ -74,3 +74,12 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))

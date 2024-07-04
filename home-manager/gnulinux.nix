@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 {
-  home.packages = [
-  ];
+  home.packages = [ pkgs.docker ];
 
   home.sessionPath = [
     "$HOME/.local/bin"

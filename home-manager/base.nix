@@ -28,8 +28,8 @@ in
     scala-cli
     gcloud
     # nodejs
-    nodejs #-18_x
-    yarn #.override { nodejs = nodejs-18_x; })
+    nodejs
+    yarn
     nnn
     fd
     vscodium
@@ -43,6 +43,10 @@ in
     # unstable.python3
     texlive.combined.scheme-full
     unstable.chromium # ungoogled-
+
+    python3
+    poetry
+    visualvm
 
     # Fonts
     d2coding

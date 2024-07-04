@@ -28,9 +28,6 @@ in
         "-Werror",
       ))
     }
-
-    // Global / semanticdbEnabled := true
-    // Global / semanticdbVersion := "4.9.0"
   '';
 
   home.sessionVariables = {
@@ -60,4 +57,10 @@ in
   home.sessionPath = [
     "$HOME/.local/share/coursier/bin"
   ];
+  
+  programs.zsh.profileExtra = ''
+    # >>> coursier install directory >>>
+    export PATH="$PATH:/Users/haemin/Library/Application Support/Coursier/bin"
+    # <<< coursier install directory <<<
+  '';
 }

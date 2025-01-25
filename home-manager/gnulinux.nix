@@ -4,5 +4,6 @@
 
   home.sessionPath = [
     "$HOME/.local/bin"
+    "$HOME/.rbenv/shims"
   ];
 }

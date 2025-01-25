@@ -2,6 +2,7 @@
 let
   gcloud = pkgs.google-cloud-sdk.withExtraComponents([
               pkgs.google-cloud-sdk.components.pubsub-emulator
+              pkgs.google-cloud-sdk.components.gke-gcloud-auth-plugin
            ]);
   unstable = import <unstable> {};
   my-python-packages = ps: with ps; [
@@ -12,7 +13,6 @@ let
   ];
 in
 {
-
   home.packages = with pkgs; [
     vim
     htop
@@ -22,7 +22,7 @@ in
     xclip
     jq
     gitAndTools.git-interactive-rebase-tool
-    postgresql
+    # unstable.postgresql
     terraform
     minikube
     scala-cli
@@ -34,7 +34,6 @@ in
     fd
     vscodium
     wget
-    clang
     unstable.talosctl
     unstable.kubectl
     unstable.clusterctl
@@ -46,18 +45,19 @@ in
 
     python3
     poetry
-    visualvm
+    # visualvm
 
     # Fonts
-    d2coding
+    # d2coding
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
+    nerdfonts
+    # liberation_ttf
+    # fira-code
+    # fira-code-symbols
+    # mplus-outline-fonts.githubRelease
+    # dina-font
     # proggyfonts
   ];
 

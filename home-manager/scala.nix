@@ -32,6 +32,7 @@ in
 
   home.sessionVariables = {
     COURSIER_PROGRESS = "false"; # https://github.com/coursier/coursier/issues/1720
+    JAVA_HOME = "$HOME/java";
   };
 
   # home.file.".local/bin/mill" = {
@@ -47,10 +48,10 @@ in
   # };
 
   home.packages = with pkgs; [
-    (unstable.coursier.override { jre = unstable.temurin-bin-21; })
-    (unstable.sbt.override { jre = unstable.temurin-bin-21; })
-    unstable.bloop
-    unstable.temurin-bin-21
+    # (unstable.coursier.override { jre = unstable.temurin-bin-21; })
+    # (unstable.sbt.override { jre = unstable.temurin-bin-21; })
+    # unstable.bloop
+    # unstable.temurin-bin-21
     unstable.visualvm
   ];
 

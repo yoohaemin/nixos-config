@@ -21,8 +21,10 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "D2Coding" :size 20))
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+(setq doom-font (font-spec :family "D2CodingLigature Nerd Font" :size 20)
+      ;doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13)
+      doom-big-font (font-spec :family "D2CodingLigature Nerd Font" :size 28)
+)
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -40,14 +42,17 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/projects/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
-; (after! lsp-metals
-;   (setq lsp-metals-java-home "/Users/haemin/Library/Java/JavaVirtualMachines/graalvm-jdk-21.0.2+13.1/Contents/Home"))
+(after! lsp-metals
+  (setq lsp-metals-java-home "/home/haemin/projects/graalvm-jdk-21.0.3+7.1")
+  (setq lsp-metals-fallback-scala-version "automatic")
+  (setq lsp-metals-enable-semantic-highlighting t)
+  )
 ;;
 ;; The exceptions to this rule:
 ;;
